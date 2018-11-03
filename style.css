@@ -1,0 +1,15 @@
+/* GLOBAL RULES */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  font-family: Helvetica, sans-serif;
+  font-size: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* CLASS DEFINITIONS */
+
+/* ID DEFINITIONS */
