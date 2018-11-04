@@ -11,5 +11,34 @@ html, body {
 }
 
 /* CLASS DEFINITIONS */
+.drop-zone {
+  border: 5px solid black;
+  height: 100%;
+  margin-left: auto;
+  width: 100px;
+}
+
+.sequencer-btn {
+  border: 1px solid black;
+  height: 100%;
+  width: 50px;
+}
+
+.track-container {
+  border: 1px solid black;
+  display: flex;
+  flex-direction: row;
+  height: 50px;
+  width: 90%;
+}
 
 /* ID DEFINITIONS */
+#container {
+  align-items: center;
+  border: 3px solid black;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: center;
+  width: 100vw;
+}
