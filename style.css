@@ -24,7 +24,14 @@ html, body {
   width: 50px;
 }
 
+.toggle {
+  border: 1px solid red;
+  height: 20px;
+  width: 20px;
+}
+
 .track-container {
+  align-items: center;
   border: 1px solid black;
   display: flex;
   flex-direction: row;
