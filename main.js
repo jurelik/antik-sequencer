@@ -23,9 +23,26 @@ class Track {
     this.mainContainer.appendChild(this.trackContainer);
 
     //CREATE ACTIVE/INACTIVE TOGGLE
-    this.toggle = document.createElement('button');
-    this.toggle.className = "toggle";
-    this.trackContainer.appendChild(this.toggle);
+    this.toggle = {
+      htmlElement: document.createElement('button'),
+      state: true
+    };
+    this.toggle.htmlElement.className = "toggle";
+    this.trackContainer.appendChild(this.toggle.htmlElement);
+
+    this.toggle.htmlElement.addEventListener('click', e => {
+      e.stopPropagation();
+      e.preventDefault();
+
+      if(this.toggle.state === true) {
+        this.toggle.state = false;
+        this.toggle.htmlElement.style.backgroundColor = 'white';
+      }
+      else {
+        this.toggle.state = true;
+        this.toggle.htmlElement.style.backgroundColor = 'green';
+      }
+    });
 
     //CREATE 16 SEQUENCER BUTTONS
     this.sequencerBtns = [];
@@ -38,7 +55,7 @@ class Track {
       this.sequencerBtns[x].htmlElement.addEventListener('click', e => {
         e.stopPropagation();
         e.preventDefault();
-        if (this.sequencerBtns[x].state == false) {
+        if (this.sequencerBtns[x].state === false) {
           this.sequencerBtns[x].state = true;
           this.sequencerBtns[x].htmlElement.style.backgroundColor = 'red';
         }
@@ -117,7 +134,7 @@ const ds = {
   scheduler() {
     while(this.nextNoteTime < context.currentTime + this.scheduleAheadTime) {
       for (let i = 0; i < trackArray.length; i++) {
-        if (trackArray[i].trackReference.rhythmArray[this.currNote]) {
+        if (trackArray[i].trackReference.rhythmArray[this.currNote] && trackArray[i].trackReference.toggle.state === true) {
           trackArray[i].trackReference.play(this.nextNoteTime);
           console.log(this.currNote);
         }
@@ -131,7 +148,7 @@ const ds = {
   nextNote() {
     this.nextNoteTime += this.secondsPerBeat;
     this.currNote++;
-    if (this.currNote == 16) {
+    if (this.currNote === 16) {
       this.currNote = 0;
     }
   }
