@@ -57,11 +57,11 @@ class Track {
         e.preventDefault();
         if (this.sequencerBtns[x].state === false) {
           this.sequencerBtns[x].state = true;
-          this.sequencerBtns[x].htmlElement.style.backgroundColor = 'red';
+          this.sequencerBtns[x].htmlElement.className = "sequencer-btn-pressed";
         }
         else {
           this.sequencerBtns[x].state = false;
-          this.sequencerBtns[x].htmlElement.style.backgroundColor = 'white';
+          this.sequencerBtns[x].htmlElement.className = "sequencer-btn";
         } 
         this.rhythmArray[x] = this.sequencerBtns[x].state; //ADJUST RHYTHM ARRAY ACCORDING TO BUTTON STATE
       });
@@ -139,7 +139,6 @@ const ds = {
           console.log(this.currNote);
         }
       }
-      // console.log('sup');
       this.nextNote();
     }
     this.timer = setTimeout(this.scheduler.bind(this), this.lookahead);
@@ -153,38 +152,3 @@ const ds = {
     }
   }
 }
-
-// let currNote = 0;
-// let lookahead = 25;
-// let nextNoteTime = 0.0;
-// let scheduleAheadTime = 0.1;
-// let tempo = 120;
-// let secondsPerBeat = 60 / tempo / 4;
-// let timer;
-
-// let playRhythm = function() {
-//   nextNoteTime = context.currentTime + 0.005;
-//   scheduler();
-// }
-
-// let scheduler = function() {
-//   while(nextNoteTime < context.currentTime + scheduleAheadTime) {
-//     for (let i = 0; i < trackArray.length; i++) {
-//       if (trackArray[i].trackReference.rhythmArray[currNote]) {
-//         trackArray[i].trackReference.play(nextNoteTime);
-//         console.log(currNote);
-//       }
-//     }
-//     console.log('ayy');
-//     nextNote();
-//   }
-//   timer = setTimeout(scheduler, lookahead);
-// }
-
-// let nextNote = function() {
-//   nextNoteTime += secondsPerBeat;
-//   currNote++;
-//   if (currNote === 16) {
-//     currNote = 0;
-//   }
-// }
