@@ -14,8 +14,9 @@ window.addEventListener('dragover', e => {
 
 //CLASSES
 class Track {
-  constructor() {
+  constructor(trackID) {
     this.rhythmArray = [];
+    this.trackID = trackID;
     //CREATE AN HTML CONTAINER
     this.mainContainer = document.getElementById('container');
     this.trackContainer = document.createElement('div');
@@ -64,6 +65,7 @@ class Track {
           this.sequencerBtns[x].htmlElement.className = "sequencer-btn";
         } 
         this.rhythmArray[x] = this.sequencerBtns[x].state; //ADJUST RHYTHM ARRAY ACCORDING TO BUTTON STATE
+        this.sequencerBtns[x].htmlElement.blur();
       });
     }
 
@@ -71,6 +73,20 @@ class Track {
     this.dropZone = document.createElement('div');
     this.dropZone.className = "drop-zone";
     this.trackContainer.appendChild(this.dropZone);
+
+    //CREATE DELETE BUTTON
+    this.deleteBtn = document.createElement('button');
+    this.deleteBtn.className = "delete-btn";
+    this.deleteBtn.innerHTML = 'x';
+    this.trackContainer.appendChild(this.deleteBtn);
+    
+
+    this.deleteBtn.addEventListener('click', e => {
+      e.stopPropagation();
+      e.preventDefault();
+
+      this.mainContainer.removeChild(this.trackContainer);
+    });
 
     //DRAG & DROP EVENT LISTENERS
     this.dropZone.addEventListener('drop', this.dropHandler.bind(this));
@@ -112,7 +128,7 @@ class Track {
 //OBJECT CONTAINING GLOBAL METHODS
 const global = {
   createTrack() {
-    trackArray = trackArray.concat({trackReference: new Track(), trackID: trackNum});
+    trackArray = trackArray.concat({trackReference: new Track(trackNum), trackID: trackNum});
     trackNum++;
   }
 }
