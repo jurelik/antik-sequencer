@@ -2,7 +2,6 @@
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 const context = new AudioContext();
 
-let trackNum = 0;
 let trackArray = [];
 
 //PREVENT DRAG & DROP ON WINDOW
@@ -14,16 +13,15 @@ window.addEventListener('dragover', e => {
 
 //CLASSES
 class Track {
-  constructor(trackID) {
+  constructor() {
     this.rhythmArray = [];
-    this.trackID = trackID;
-    //CREATE AN HTML CONTAINER
+    //HTML CONTAINER
     this.mainContainer = document.getElementById('container');
     this.trackContainer = document.createElement('div');
     this.trackContainer.className = "track-container";
     this.mainContainer.appendChild(this.trackContainer);
 
-    //CREATE ACTIVE/INACTIVE TOGGLE
+    //ACTIVE/INACTIVE TOGGLE
     this.toggle = {
       htmlElement: document.createElement('button'),
       state: true
@@ -45,7 +43,7 @@ class Track {
       }
     });
 
-    //CREATE 16 SEQUENCER BUTTONS
+    //16 SEQUENCER BUTTONS
     this.sequencerBtns = [];
     for (let x = 0; x < 16; x++) {
       this.sequencerBtns = this.sequencerBtns.concat({htmlElement: document.createElement('button'), state: false});
@@ -69,28 +67,28 @@ class Track {
       });
     }
 
-    //CREATE DROP ZONE
+    //DROP ZONE
     this.dropZone = document.createElement('div');
     this.dropZone.className = "drop-zone";
     this.trackContainer.appendChild(this.dropZone);
 
-    //CREATE DELETE BUTTON
+    this.dropZone.addEventListener('drop', this.dropHandler.bind(this));
+    this.dropZone.addEventListener('dragover', this.dragHandler.bind(this));
+
+    //DELETE BUTTON
     this.deleteBtn = document.createElement('button');
     this.deleteBtn.className = "delete-btn";
     this.deleteBtn.innerHTML = 'x';
     this.trackContainer.appendChild(this.deleteBtn);
-    
 
     this.deleteBtn.addEventListener('click', e => {
       e.stopPropagation();
       e.preventDefault();
 
-      this.mainContainer.removeChild(this.trackContainer);
+      trackArray.splice(trackArray.indexOf(this), 1); //Remove the track from trackArray
+      this.mainContainer.removeChild(this.trackContainer); //Remove DOM Elements
     });
 
-    //DRAG & DROP EVENT LISTENERS
-    this.dropZone.addEventListener('drop', this.dropHandler.bind(this));
-    this.dropZone.addEventListener('dragover', this.dragHandler.bind(this));
   }
   play(time) { //PLAY SAMPLE
     if (this.buffer) {
@@ -127,9 +125,8 @@ class Track {
 
 //OBJECT CONTAINING GLOBAL METHODS
 const global = {
-  createTrack() {
-    trackArray = trackArray.concat({trackReference: new Track(trackNum), trackID: trackNum});
-    trackNum++;
+  createTrack() { //Create a new track
+    trackArray = trackArray.concat(new Track());
   }
 }
 
