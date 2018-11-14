@@ -35,11 +35,11 @@ class Track {
 
       if(this.toggle.state === true) {
         this.toggle.state = false;
-        this.toggle.htmlElement.style.backgroundColor = 'white';
+        this.toggle.htmlElement.className = 'toggle-off';
       }
       else {
         this.toggle.state = true;
-        this.toggle.htmlElement.style.backgroundColor = 'green';
+        this.toggle.htmlElement.className = 'toggle';
       }
     });
 
@@ -71,6 +71,7 @@ class Track {
     this.dropZone = document.createElement('div');
     this.dropZone.className = "drop-zone";
     this.trackContainer.appendChild(this.dropZone);
+    this.dropZone.innerHTML = "<p>Drop File</p>"
 
     this.dropZone.addEventListener('drop', this.dropHandler.bind(this));
     this.dropZone.addEventListener('dragover', this.dragHandler.bind(this));
@@ -78,7 +79,7 @@ class Track {
     //DELETE BUTTON
     this.deleteBtn = document.createElement('button');
     this.deleteBtn.className = "delete-btn";
-    this.deleteBtn.innerHTML = 'x';
+    this.deleteBtn.innerHTML = 'X';
     this.trackContainer.appendChild(this.deleteBtn);
 
     this.deleteBtn.addEventListener('click', e => {
@@ -131,7 +132,7 @@ const global = {
 }
 
 //DRUM SEQUENCER
-const ds = {
+const drumSequencer = {
   currNote: 0,
   lookahead: 25,
   nextNoteTime: 0.0,
@@ -139,22 +140,32 @@ const ds = {
   tempo: 120,
   
   playRhythm() {
-    this.secondsPerBeat = 60 / this.tempo / 4;
-    this.nextNoteTime = context.currentTime + 0.005;
-    this.scheduler();
+    if (trackArray.length > 0) { //Check to see if any tracks are created before starting the scheduler
+      this.secondsPerBeat = 60 / this.tempo / 4;
+      this.nextNoteTime = context.currentTime + 0.005;
+      this.scheduler();
+    }
+    else {
+      console.log('No tracks created');
+    }
   },
 
   scheduler() {
-    while(this.nextNoteTime < context.currentTime + this.scheduleAheadTime) {
-      for (let i = 0; i < trackArray.length; i++) {
-        if (trackArray[i].trackReference.rhythmArray[this.currNote] && trackArray[i].trackReference.toggle.state === true) {
-          trackArray[i].trackReference.play(this.nextNoteTime);
-          console.log(this.currNote);
+    if (trackArray.length > 0) { //Check to see if any tracks exist before every loop
+      while(this.nextNoteTime < context.currentTime + this.scheduleAheadTime) {
+        for (let i = 0; i < trackArray.length; i++) {
+          if (trackArray[i].rhythmArray[this.currNote] && trackArray[i].toggle.state === true) {
+            trackArray[i].play(this.nextNoteTime);
+            console.log(this.currNote);
+          }
         }
+        this.nextNote();
       }
-      this.nextNote();
+      this.timer = setTimeout(this.scheduler.bind(this), this.lookahead);
     }
-    this.timer = setTimeout(this.scheduler.bind(this), this.lookahead);
+    else { //Stop the timer in case no tracks are left
+      clearTimeout(this.timer);
+    }
   },
 
   nextNote() {
