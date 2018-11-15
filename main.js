@@ -69,12 +69,38 @@ class Track {
 
     //DROP ZONE
     this.dropZone = document.createElement('div');
-    this.dropZone.className = "drop-zone";
+    this.dropZone.className = 'drop-zone';
     this.trackContainer.appendChild(this.dropZone);
-    this.dropZone.innerHTML = "<p>Drop File</p>"
+    this.dropZone.innerHTML = '<p>Drop File</p>';
+
+    this.hiddenInput = document.createElement('input'); //Add a hidden file input in case the user clicks on dropZone
+    this.hiddenInput.setAttribute('type', 'file');
+    this.hiddenInput.className = 'hidden-input';
+    this.trackContainer.appendChild(this.hiddenInput);
 
     this.dropZone.addEventListener('drop', this.dropHandler.bind(this));
     this.dropZone.addEventListener('dragover', this.dragHandler.bind(this));
+    this.dropZone.addEventListener('click', e => { //Listen for clicks on dropZone
+      e.stopPropagation();
+      e.preventDefault();
+      
+      this.hiddenInput.click();
+    });
+    this.hiddenInput.addEventListener('change', e => { //Listen for a file drop via the <input> tag
+      e.stopPropagation();
+      e.preventDefault();
+
+      const reader = new FileReader();
+      let file = this.hiddenInput.files[0];
+      let self = this;
+
+      reader.onload = () => {
+        context.decodeAudioData(reader.result, decoded => {
+          self.buffer = decoded;
+        });
+      }
+      reader.readAsArrayBuffer(file);
+    });
 
     //DELETE BUTTON
     this.deleteBtn = document.createElement('button');
