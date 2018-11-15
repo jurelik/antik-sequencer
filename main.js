@@ -3,6 +3,7 @@ const AudioContext = window.AudioContext || window.webkitAudioContext;
 const context = new AudioContext();
 
 let trackArray = [];
+const addTrack = document.getElementById('add-track');
 
 //PREVENT DRAG & DROP ON WINDOW
 window.addEventListener('dragover', e => {
@@ -19,7 +20,7 @@ class Track {
     this.mainContainer = document.getElementById('container');
     this.trackContainer = document.createElement('div');
     this.trackContainer.className = "track-container";
-    this.mainContainer.appendChild(this.trackContainer);
+    this.mainContainer.insertBefore(this.trackContainer, addTrack);
 
     //ACTIVE/INACTIVE TOGGLE
     this.toggle = {
@@ -151,11 +152,11 @@ class Track {
 }
 
 //OBJECT CONTAINING GLOBAL METHODS
-const global = {
-  createTrack() { //Create a new track
-    trackArray = trackArray.concat(new Track());
-  }
-}
+// const global = {
+//   createTrack() { //Create a new track
+//     trackArray = trackArray.concat(new Track());
+//   }
+// }
 
 //DRUM SEQUENCER
 const drumSequencer = {
@@ -164,6 +165,10 @@ const drumSequencer = {
   nextNoteTime: 0.0,
   scheduleAheadTime: 0.1,
   tempo: 120,
+
+  createTrack() { //Create a new track
+    trackArray = trackArray.concat(new Track());
+  },
   
   playRhythm() {
     if (trackArray.length > 0) { //Check to see if any tracks are created before starting the scheduler
@@ -202,3 +207,8 @@ const drumSequencer = {
     }
   }
 }
+
+//GLOBAL EVENT LISTENERS
+addTrack.addEventListener('click', e => {
+  drumSequencer.createTrack();
+});

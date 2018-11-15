@@ -107,10 +107,26 @@ html, body {
   flex-direction: row;
   height: 40px;
   justify-content: center;
+  margin-bottom: 8px;
   width: 90%;
 }
 
 /* ID DEFINITIONS */
+#add-track {
+  background-color: rgba(0, 0, 0, 0.301);
+  border: none;
+  border-radius: 50%;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+  color: white;
+  cursor: pointer;
+  display: inline-block;
+  font-family: Arial, sans-serif;
+  font-size: 4em;
+  height: 75px;
+  vertical-align: middle;
+  width: 75px;
+}
+
 #container {
   align-items: center;
   background-image: url('background-img.jpg');
