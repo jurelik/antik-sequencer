@@ -47,6 +47,14 @@ html, body {
   display: none;
 }
 
+.play-active {
+  color: green;
+}
+
+.play-inactive {
+  color: black;
+}
+
 .sequencer-btn {
   background-color: rgba(255, 255, 255, 0.5);
   border: none;
@@ -77,6 +85,14 @@ html, body {
 
 .sequencer-btn-pressed:active {
   outline: none;
+}
+
+.stop-active {
+  color: red;
+}
+
+.stop-inactive {
+  color: black;
 }
 
 .toggle {
@@ -113,55 +129,61 @@ html, body {
 
 /* ID DEFINITIONS */
 #add-track {
-  background-color: rgba(0, 0, 0, 0.301);
   border: none;
-  border-radius: 50%;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-  color: white;
-  cursor: pointer;
-  display: inline-block;
-  font-family: Arial, sans-serif;
-  font-size: 4em;
-  height: 75px;
-  /* margin: 100px 50px; */
-  vertical-align: middle;
-  width: 75px;
+  font-family: 'Arial Unicode MS', sans-serif;
+  font-size: 1em;
+  font-weight: 900;
+}
+
+#add-track:active {
+  outline: none;
 }
 
 #container {
   align-items: center;
   background-image: url('background-img.jpg');
   background-size: cover;
-  border: 3px solid black;
   display: flex;
   flex-direction: column;
   height: 100vh;
-  justify-content: center;
+  justify-content: flex-start;
   width: 100vw;
 }
 
 #global-controls {
   align-items: center;
+  /* box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); */
   display: flex;
   justify-content: center;
-  margin-bottom: 8px;
 }
 
 #play {
-  /* background-color: transparent;
-  border: 1px solid black;
-  color: blue;
-  cursor: pointer;
-  font-family: 'Times New Roman', sans-serif;
-  font-size: 4em;
-  line-height: 46px;
-  margin-bottom: 8px;
-  padding: 0;
-  padding-top: 8px;
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-  vertical-align: middle; */
+  border: none;
+  font-family: 'Arial Unicode MS', sans-serif;
+  font-size: 1em;
+  font-weight: 900;
+}
+
+#play:active {
+  outline: none;
 }
 
 #stop {
-  
+  border: none;
+  font-family: 'Arial Unicode MS', sans-serif;
+  font-size: 1em;
+  font-weight: 900;
+}
+
+#stop:active {
+  outline: none;
+}
+
+#track-div {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+  width: 100%;
 }

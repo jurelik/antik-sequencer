@@ -3,6 +3,8 @@ const AudioContext = window.AudioContext || window.webkitAudioContext;
 const context = new AudioContext();
 
 let trackArray = [];
+const mainContainer = document.getElementById('container');
+const trackDiv = document.getElementById('track-div');
 const addTrack = document.getElementById('add-track');
 const playBtn = document.getElementById('play');
 const stopBtn = document.getElementById('stop');
@@ -19,10 +21,9 @@ class Track {
   constructor() {
     this.rhythmArray = [];
     //HTML CONTAINER
-    this.mainContainer = document.getElementById('container');
     this.trackContainer = document.createElement('div');
     this.trackContainer.className = "track-container";
-    this.mainContainer.insertBefore(this.trackContainer, addTrack);
+    trackDiv.appendChild(this.trackContainer);
 
     //ACTIVE/INACTIVE TOGGLE
     this.toggle = {
@@ -108,7 +109,7 @@ class Track {
     //DELETE BUTTON
     this.deleteBtn = document.createElement('button');
     this.deleteBtn.className = "delete-btn";
-    this.deleteBtn.innerHTML = 'X';
+    this.deleteBtn.innerHTML = '✖';
     this.trackContainer.appendChild(this.deleteBtn);
 
     this.deleteBtn.addEventListener('click', e => {
@@ -116,7 +117,7 @@ class Track {
       e.preventDefault();
 
       trackArray.splice(trackArray.indexOf(this), 1); //Remove the track from trackArray
-      this.mainContainer.removeChild(this.trackContainer); //Remove DOM Elements
+      trackDiv.removeChild(this.trackContainer); //Remove DOM Elements
     });
 
   }
@@ -153,13 +154,6 @@ class Track {
   }
 }
 
-//OBJECT CONTAINING GLOBAL METHODS
-// const global = {
-//   createTrack() { //Create a new track
-//     trackArray = trackArray.concat(new Track());
-//   }
-// }
-
 //DRUM SEQUENCER
 const drumSequencer = {
   currNote: 0,
@@ -178,6 +172,8 @@ const drumSequencer = {
       this.secondsPerBeat = 60 / this.tempo / 4;
       this.nextNoteTime = context.currentTime + 0.005;
       this.playing = true;
+      playBtn.className = 'play-active';
+      stopBtn.className = 'stop-inactive';
       this.scheduler();
     }
     else if (this.playing === true){
@@ -189,8 +185,12 @@ const drumSequencer = {
   },
 
   stopRhythm() {
-    clearTimeout(this.timer);
-    this.playing = false;
+    if (this.playing === true) {
+      clearTimeout(this.timer);
+      this.playing = false;
+      playBtn.className = 'play-inactive';
+      stopBtn.className = 'stop-active';
+    }
   },
 
   scheduler() {
@@ -209,6 +209,7 @@ const drumSequencer = {
     else { //Stop the timer in case no tracks are left
       clearTimeout(this.timer);
       this.playing = false;
+      playBtn.className = 'play-inactive';
     }
   },
 
@@ -224,13 +225,16 @@ const drumSequencer = {
 //GLOBAL EVENT LISTENERS
 addTrack.addEventListener('click', e => {
   drumSequencer.createTrack();
+  addTrack.blur();
 });
 
 playBtn.addEventListener('click', e => {
   drumSequencer.playRhythm();
+  playBtn.blur();
 });
 
 stopBtn.addEventListener('click', e => {
   drumSequencer.stopRhythm();
   drumSequencer.currNote = 0;
+  stopBtn.blur();
 });
