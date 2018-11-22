@@ -123,6 +123,7 @@ html, body {
   font-family: Arial, sans-serif;
   font-size: 4em;
   height: 75px;
+  /* margin: 100px 50px; */
   vertical-align: middle;
   width: 75px;
 }
@@ -139,9 +140,16 @@ html, body {
   width: 100vw;
 }
 
-#start {
-  background-color: transparent;
-  border: none;
+#global-controls {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+#play {
+  /* background-color: transparent;
+  border: 1px solid black;
   color: blue;
   cursor: pointer;
   font-family: 'Times New Roman', sans-serif;
@@ -151,5 +159,9 @@ html, body {
   padding: 0;
   padding-top: 8px;
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-  vertical-align: middle;
+  vertical-align: middle; */
+}
+
+#stop {
+  
 }

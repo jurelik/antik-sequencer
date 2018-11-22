@@ -4,6 +4,8 @@ const context = new AudioContext();
 
 let trackArray = [];
 const addTrack = document.getElementById('add-track');
+const playBtn = document.getElementById('play');
+const stopBtn = document.getElementById('stop');
 
 //PREVENT DRAG & DROP ON WINDOW
 window.addEventListener('dragover', e => {
@@ -163,6 +165,7 @@ const drumSequencer = {
   currNote: 0,
   lookahead: 25,
   nextNoteTime: 0.0,
+  playing: false,
   scheduleAheadTime: 0.1,
   tempo: 120,
 
@@ -171,14 +174,23 @@ const drumSequencer = {
   },
   
   playRhythm() {
-    if (trackArray.length > 0) { //Check to see if any tracks are created before starting the scheduler
+    if (trackArray.length > 0 && this.playing === false) { //Check to see if any tracks are created before starting the scheduler
       this.secondsPerBeat = 60 / this.tempo / 4;
       this.nextNoteTime = context.currentTime + 0.005;
+      this.playing = true;
       this.scheduler();
+    }
+    else if (this.playing === true){
+      console.log('Already playing');
     }
     else {
       console.log('No tracks created');
     }
+  },
+
+  stopRhythm() {
+    clearTimeout(this.timer);
+    this.playing = false;
   },
 
   scheduler() {
@@ -196,6 +208,7 @@ const drumSequencer = {
     }
     else { //Stop the timer in case no tracks are left
       clearTimeout(this.timer);
+      this.playing = false;
     }
   },
 
@@ -211,4 +224,13 @@ const drumSequencer = {
 //GLOBAL EVENT LISTENERS
 addTrack.addEventListener('click', e => {
   drumSequencer.createTrack();
+});
+
+playBtn.addEventListener('click', e => {
+  drumSequencer.playRhythm();
+});
+
+stopBtn.addEventListener('click', e => {
+  drumSequencer.stopRhythm();
+  drumSequencer.currNote = 0;
 });
