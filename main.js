@@ -72,21 +72,20 @@ class Track {
     }
 
     //FILTER
-    this.filter = context.createBiquadFilter();
+    this.filter = context.createBiquadFilter(); //Create a filter component in the audio context
     this.filter.connect(context.destination);
     this.filter.type = "lowpass";
     this.filter.frequency.setValueAtTime(5000, context.currentTime);
 
-    this.filterSlider = document.createElement('input');
+    this.filterSlider = document.createElement('input'); //Create a DOM slider element
     this.filterSlider.setAttribute('type', 'range');
     this.filterSlider.setAttribute('min', '0');
-    this.filterSlider.setAttribute('max', '18000');
+    this.filterSlider.setAttribute('max', '11000');
     this.filterSlider.setAttribute('step', '1');
     this.trackContainer.appendChild(this.filterSlider);
 
-    this.filterSlider.addEventListener('input', e => {
-      console.log(this.filterSlider.value);
-      this.filter.frequency.setValueAtTime(this.filterSlider.value, context.currentTime);
+    this.filterSlider.addEventListener('input', e => { //Listen for changes on slider
+      this.filter.frequency.setValueAtTime(this.logSlider(this.filterSlider.value), context.currentTime);
     });
 
     //DROP ZONE
@@ -168,6 +167,15 @@ class Track {
     e.stopPropagation();
     e.preventDefault();
     e.dataTransfer.dropEffect = "copy";
+  }
+  logSlider(position) {
+    var minp = 0;
+    var maxp = 11000;
+    var minv = Math.log(30);
+    var maxv = Math.log(22000);
+    var scale = (maxv-minv) / (maxp-minp);
+    var value = Math.exp(minv + scale*(position-minp));
+    return value;
   }
 }
 
