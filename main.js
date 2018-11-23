@@ -75,13 +75,15 @@ class Track {
     this.filter = context.createBiquadFilter(); //Create a filter component in the audio context
     this.filter.connect(context.destination);
     this.filter.type = "lowpass";
-    this.filter.frequency.setValueAtTime(5000, context.currentTime);
+    this.filter.frequency.setValueAtTime(22000, context.currentTime);
 
     this.filterSlider = document.createElement('input'); //Create a DOM slider element
     this.filterSlider.setAttribute('type', 'range');
     this.filterSlider.setAttribute('min', '0');
     this.filterSlider.setAttribute('max', '11000');
     this.filterSlider.setAttribute('step', '1');
+    this.filterSlider.setAttribute('value', '11000');
+    this.filterSlider.className = 'slider';
     this.trackContainer.appendChild(this.filterSlider);
 
     this.filterSlider.addEventListener('input', e => { //Listen for changes on slider

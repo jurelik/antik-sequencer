@@ -87,6 +87,12 @@ html, body {
   outline: none;
 }
 
+.slider {
+  -webkit-appearance: slider-vertical;
+  height: 100%;
+  width: 15px;
+}
+
 .stop-active {
   color: #F97C72;
 }
