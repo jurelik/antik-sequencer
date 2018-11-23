@@ -71,6 +71,24 @@ class Track {
       });
     }
 
+    //FILTER
+    this.filter = context.createBiquadFilter();
+    this.filter.connect(context.destination);
+    this.filter.type = "lowpass";
+    this.filter.frequency.setValueAtTime(5000, context.currentTime);
+
+    this.filterSlider = document.createElement('input');
+    this.filterSlider.setAttribute('type', 'range');
+    this.filterSlider.setAttribute('min', '0');
+    this.filterSlider.setAttribute('max', '18000');
+    this.filterSlider.setAttribute('step', '1');
+    this.trackContainer.appendChild(this.filterSlider);
+
+    this.filterSlider.addEventListener('input', e => {
+      console.log(this.filterSlider.value);
+      this.filter.frequency.setValueAtTime(this.filterSlider.value, context.currentTime);
+    });
+
     //DROP ZONE
     this.dropZone = document.createElement('div');
     this.dropZone.className = 'drop-zone';
@@ -119,12 +137,11 @@ class Track {
       trackArray.splice(trackArray.indexOf(this), 1); //Remove the track from trackArray
       trackDiv.removeChild(this.trackContainer); //Remove DOM Elements
     });
-
   }
   play(time) { //PLAY SAMPLE
     if (this.buffer) {
       const source = context.createBufferSource();
-      source.connect(context.destination);
+      source.connect(this.filter);
       source.buffer = this.buffer;
       source.start(time);
     }
