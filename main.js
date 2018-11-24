@@ -118,10 +118,20 @@ class Track {
       let self = this;
 
       reader.onload = () => {
-        context.decodeAudioData(reader.result, decoded => {
-          self.buffer = decoded;
-        });
-      }
+        if (file.type === 'audio/wav' || file.type === 'audio/x-wav' || file.type === 'audio/mp3' ||file.type === 'audio/mpeg' ||  file.type === 'audio/ogg') { //Check if the loaded file is an audio file
+          context.decodeAudioData(reader.result, decoded => {
+            if (decoded.duration < 2.0) { //Check to see if the file is under 2s long to prevent long samples
+              self.buffer = decoded;
+            }
+            else { //Error if sound file is longer than 2s
+              console.log('Sound file needs to be under 2s long!');
+            } 
+          });
+        }
+        else { //Error if file type is not supported
+          console.log('We currently support wav, mp3 and ogg formats.');
+        } 
+      };
       reader.readAsArrayBuffer(file);
     });
 
@@ -154,16 +164,26 @@ class Track {
     e.stopPropagation();
     e.preventDefault();
 
-    let file = e.dataTransfer.files;
+    let file = e.dataTransfer.files[0];
     let self = this;
-
     const reader = new FileReader();
+
     reader.onload = () => {
-      context.decodeAudioData(reader.result, decoded => {
-        self.buffer = decoded;
-      });
+      if (file.type === 'audio/wav' || file.type === 'audio/x-wav' || file.type === 'audio/mp3' ||file.type === 'audio/mpeg' ||  file.type === 'audio/ogg') { //Check if the loaded file is an audio file
+        context.decodeAudioData(reader.result, decoded => {
+          if (decoded.duration < 2.0) { //Check to see if the file is under 2s long to prevent long samples
+            self.buffer = decoded;
+          }
+          else { //Error if sound file is longer than 2s
+            console.log('Sound file needs to be under 2s long!');
+          } 
+        });
+      }
+      else { //Error if file type is not supported
+        console.log('We currently support wav, mp3 and ogg formats.');
+      } 
       };
-    reader.readAsArrayBuffer(file[0]);
+    reader.readAsArrayBuffer(file);
   }
   dragHandler(e) { //DRAG & DROP MOUSE CONFIG
     e.stopPropagation();
@@ -221,7 +241,7 @@ const drumSequencer = {
   },
 
   scheduler() {
-    if (trackArray.length > 0) { //Check to see if any tracks exist before every loop
+    if (trackArray.length > 0 && document.hidden === false) { //Check to see if any tracks exist before every loop & tab is in focus
       while(this.nextNoteTime < context.currentTime + this.scheduleAheadTime) {
         for (let i = 0; i < trackArray.length; i++) {
           if (trackArray[i].rhythmArray[this.currNote] && trackArray[i].toggle.state === true) {
@@ -237,6 +257,7 @@ const drumSequencer = {
       clearTimeout(this.timer);
       this.playing = false;
       playBtn.className = 'play-inactive';
+      this.currNote = 0;
     }
   },
 
