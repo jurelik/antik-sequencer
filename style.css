@@ -88,9 +88,11 @@ html, body {
 }
 
 .slider {
-  -webkit-appearance: slider-vertical;
-  height: 100%;
-  width: 15px;
+  -webkit-appearance: none;
+}
+
+.slider::-webkit-slider-runnable-track {
+  height: 30px;
 }
 
 .stop-active {
