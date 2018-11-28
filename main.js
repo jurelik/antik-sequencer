@@ -20,6 +20,8 @@ window.addEventListener('dragover', e => {
 class Track {
   constructor() {
     this.rhythmArray = [];
+    this.gain = context.createGain(); //Create a gain node in the audio context
+    this.filter = context.createBiquadFilter(); //Create a filter node in the audio context
     //HTML CONTAINER
     this.trackContainer = document.createElement('div');
     this.trackContainer.className = "track-container";
@@ -72,8 +74,7 @@ class Track {
     }
 
     //FILTER
-    this.filter = context.createBiquadFilter(); //Create a filter component in the audio context
-    this.filter.connect(context.destination);
+    this.filter.connect(this.gain);
     this.filter.type = "lowpass";
     this.filter.frequency.setValueAtTime(22000, context.currentTime);
 
@@ -83,11 +84,30 @@ class Track {
     this.filterSlider.setAttribute('max', '11000');
     this.filterSlider.setAttribute('step', '1');
     this.filterSlider.setAttribute('value', '11000');
-    this.filterSlider.className = 'slider';
+    this.filterSlider.className = 'filter-slider';
     this.trackContainer.appendChild(this.filterSlider);
 
     this.filterSlider.addEventListener('input', e => { //Listen for changes on slider
-      this.filter.frequency.setValueAtTime(this.logSlider(this.filterSlider.value), context.currentTime);
+      this.filter.frequency.setValueAtTime(this.logSliderFilter(this.filterSlider.value), context.currentTime);
+    });
+
+    //GAIN
+    this.gain.connect(context.destination);
+    this.gain.gain.setValueAtTime(1, context.currentTime);
+
+    this.gainSlider = document.createElement('input');
+    this.gainSlider.setAttribute('type', 'range');
+    this.gainSlider.setAttribute('type', 'range');
+    this.gainSlider.setAttribute('min', '0.001');
+    this.gainSlider.setAttribute('max', '1');
+    this.gainSlider.setAttribute('step', '0.001');
+    this.gainSlider.setAttribute('value', '1');
+    this.gainSlider.className = 'gain-slider';
+    this.trackContainer.appendChild(this.gainSlider);
+
+    this.gainSlider.addEventListener('input', e => {
+      this.gain.gain.exponentialRampToValueAtTime(this.logSliderGain(this.gainSlider.value), context.currentTime + 0.1);
+      console.log(this.gainSlider.value);
     });
 
     //DROP ZONE
@@ -190,11 +210,20 @@ class Track {
     e.preventDefault();
     e.dataTransfer.dropEffect = "copy";
   }
-  logSlider(position) {
+  logSliderFilter(position) {
     var minp = 0;
     var maxp = 11000;
     var minv = Math.log(30);
     var maxv = Math.log(22000);
+    var scale = (maxv-minv) / (maxp-minp);
+    var value = Math.exp(minv + scale*(position-minp));
+    return value;
+  }
+  logSliderGain(position) {
+    var minp = 0.001;
+    var maxp = 1;
+    var minv = Math.log(0.001);
+    var maxv = Math.log(1);
     var scale = (maxv-minv) / (maxp-minp);
     var value = Math.exp(minv + scale*(position-minp));
     return value;

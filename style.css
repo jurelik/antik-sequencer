@@ -87,12 +87,20 @@ html, body {
   outline: none;
 }
 
-.slider {
+.filter-slider {
   -webkit-appearance: none;
+  background-color: #3185bd;
+  height: 20px;
+  margin: 0 -6px;
+  transform: rotate(-90deg);
+  width: 40px;
 }
 
-.slider::-webkit-slider-runnable-track {
-  height: 30px;
+.filter-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  background-color: #BD9931;
+  height: 20px;
+  width: 5px;
 }
 
 .stop-active {
