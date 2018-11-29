@@ -89,7 +89,12 @@ class Track {
     this.trackContainer.appendChild(this.filterSlider);
 
     this.filterSlider.addEventListener('input', e => { //Listen for changes on slider
+      e.stopPropagation();
+      e.preventDefault();
       this.filter.frequency.setValueAtTime(this.logSliderFilter(this.filterSlider.value), context.currentTime);
+      // this.filterSlider.blur();
+    });
+    this.filterSlider.addEventListener('mouseup', e => { //Remove outline when user stops dragging
       this.filterSlider.blur();
     });
 
@@ -108,7 +113,11 @@ class Track {
     this.trackContainer.appendChild(this.gainSlider);
 
     this.gainSlider.addEventListener('input', e => {
+      e.stopPropagation();
+      e.preventDefault();
       this.gain.gain.exponentialRampToValueAtTime(this.logSliderGain(this.gainSlider.value), context.currentTime + 0.1);
+    });
+    this.gainSlider.addEventListener('mouseup', e => { //Remove outline when user stops dragging
       this.gainSlider.blur();
     });
 
