@@ -8,6 +8,7 @@ const trackDiv = document.getElementById('track-div');
 const addTrack = document.getElementById('add-track');
 const playBtn = document.getElementById('play');
 const stopBtn = document.getElementById('stop');
+const bpm = document.getElementById('bpm');
 
 //PREVENT DRAG & DROP ON WINDOW
 window.addEventListener('dragover', e => {
@@ -246,7 +247,6 @@ const drumSequencer = {
   
   playRhythm() {
     if (trackArray.length > 0 && this.playing === false) { //Check to see if any tracks are created before starting the scheduler
-      this.secondsPerBeat = 60 / this.tempo / 4;
       this.nextNoteTime = context.currentTime + 0.005;
       this.playing = true;
       playBtn.className = 'play-active';
@@ -292,6 +292,7 @@ const drumSequencer = {
   },
 
   nextNote() {
+    this.secondsPerBeat = 60 / this.tempo / 4;
     this.nextNoteTime += this.secondsPerBeat;
     this.currNote++;
     if (this.currNote === 16) {
@@ -315,4 +316,10 @@ stopBtn.addEventListener('click', e => {
   drumSequencer.stopRhythm();
   drumSequencer.currNote = 0;
   stopBtn.blur();
+});
+
+bpm.addEventListener('change', e => {
+  drumSequencer.tempo = bpm.value;
+  console.log(bpm.value);
+  bpm.blur();
 });
