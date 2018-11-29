@@ -176,15 +176,40 @@ html, body {
 
 /* ID DEFINITIONS */
 #add-track {
+  align-items: flex-start;
   background-color: #CDBBA8;
   border: none;
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
   font-family: 'Arial Unicode MS', sans-serif;
   font-size: 1em;
   font-weight: 900;
+  height: 30px;
+  justify-content: center;
 }
 
 #add-track:active {
+  outline: none;
+}
+
+#bpm {
+  align-items: center;
+  background-color: #CDBBA8;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Helvetica Neue', sans-serif;
+  font-size: 0.95em;
+  font-weight: 400;
+  height: 30px;
+  justify-content: center;
+  text-align: right;
+  vertical-align: center;
+  width: 40px;
+}
+
+#bpm:active {
   outline: none;
 }
 
@@ -201,19 +226,24 @@ html, body {
 
 #global-controls {
   align-items: center;
-  background-color: white;
+  background-color: #CDBBA8;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
 }
 
 #play {
+  align-items: center;
   background-color: #CDBBA8;
   border: none;
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
   font-family: 'Arial Unicode MS', sans-serif;
   font-size: 1em;
   font-weight: 900;
+  height: 30px;
+  justify-content: center;
 }
 
 #play:active {
@@ -221,12 +251,17 @@ html, body {
 }
 
 #stop {
+  align-items: center;
   background-color: #CDBBA8;
   border: none;
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
   font-family: 'Arial Unicode MS', sans-serif;
   font-size: 1em;
   font-weight: 900;
+  height: 30px;
+  justify-content: center;
 }
 
 #stop:active {
