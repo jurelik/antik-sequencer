@@ -89,6 +89,7 @@ class Track {
 
     this.filterSlider.addEventListener('input', e => { //Listen for changes on slider
       this.filter.frequency.setValueAtTime(this.logSliderFilter(this.filterSlider.value), context.currentTime);
+      this.filterSlider.blur();
     });
 
     //GAIN
@@ -107,7 +108,7 @@ class Track {
 
     this.gainSlider.addEventListener('input', e => {
       this.gain.gain.exponentialRampToValueAtTime(this.logSliderGain(this.gainSlider.value), context.currentTime + 0.1);
-      console.log(this.gainSlider.value);
+      this.gainSlider.blur();
     });
 
     //DROP ZONE
