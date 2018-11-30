@@ -87,6 +87,8 @@ html, body {
   outline: none;
 }
 
+/* OLD SLIDER STYLES THAT WORK WITH CHROME */
+
 /* .filter-slider {
   -moz-appearance: none;
   -webkit-appearance: none;
@@ -142,21 +144,13 @@ html, body {
 
 .filter-slider {
   -webkit-appearance: slider-vertical;
-  height: 40px;
+  height: 45px;
   width: 20px;
-}
-
-.filter-slider:active {
-  outline: none;
-}
-
-.filter-slider:focus {
-  outline: none;
 }
 
 .gain-slider {
   -webkit-appearance: slider-vertical;
-  height: 40px;
+  height: 45px;
   width: 20px;
 }
 
@@ -192,7 +186,6 @@ html, body {
 
 .track-container {
   align-items: center;
-  /* border: 1px solid black; */
   display: flex;
   flex-direction: row;
   height: 40px;
