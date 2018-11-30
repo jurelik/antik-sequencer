@@ -85,6 +85,7 @@ class Track {
     this.filterSlider.setAttribute('max', '11000');
     this.filterSlider.setAttribute('step', '1');
     this.filterSlider.setAttribute('value', '11000');
+    this.filterSlider.setAttribute('orient', 'vertical');
     this.filterSlider.className = 'filter-slider';
     this.trackContainer.appendChild(this.filterSlider);
 
@@ -109,6 +110,7 @@ class Track {
     this.gainSlider.setAttribute('max', '1');
     this.gainSlider.setAttribute('step', '0.001');
     this.gainSlider.setAttribute('value', '1');
+    this.gainSlider.setAttribute('orient', 'vertical');
     this.gainSlider.className = 'gain-slider';
     this.trackContainer.appendChild(this.gainSlider);
 
