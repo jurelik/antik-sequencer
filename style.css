@@ -35,12 +35,26 @@ html, body {
   height: 100%;
   justify-content: center;
   margin-left: 4px;
+  text-align: center;
   width: 100%;
 }
 
 .drop-zone p {
   color: white;
   font-weight: 100;
+  font-size: 1.1vw;
+}
+
+.filter-slider {
+  -webkit-appearance: slider-vertical;
+  height: 100%;
+  width: 20px;
+}
+
+.gain-slider {
+  -webkit-appearance: slider-vertical;
+  height: 100%;
+  width: 20px;
 }
 
 .hidden-input {
@@ -142,18 +156,6 @@ html, body {
   outline: none;
 } */
 
-.filter-slider {
-  -webkit-appearance: slider-vertical;
-  height: 100%;
-  width: 20px;
-}
-
-.gain-slider {
-  -webkit-appearance: slider-vertical;
-  height: 100%;
-  width: 20px;
-}
-
 .stop-active {
   color: #F97C72;
 }
@@ -180,6 +182,7 @@ html, body {
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
   cursor: pointer;
   height: 16px;
+  margin: 0 4px;
   min-width: 16px;
   width: 16px;
 }
@@ -302,4 +305,25 @@ html, body {
   height: 100%;
   justify-content: center;
   width: 100%;
+}
+
+#warning-area {
+  align-items: center;
+  color: #F97C72;
+  height: 30px;
+  display: flex;
+  font-weight: 100;
+  justify-content: center;
+  margin-bottom: 8px;
+  margin-top: 0;
+  text-align: center;
+  width: 100vw;
+}
+
+/* MEDIA QUERIES */
+
+@media screen and (max-width: 1048px) {
+  .drop-zone p {
+    font-size: 0.6vw;
+  }
 }

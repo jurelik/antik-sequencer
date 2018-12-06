@@ -9,6 +9,7 @@ const addTrack = document.getElementById('add-track');
 const playBtn = document.getElementById('play');
 const stopBtn = document.getElementById('stop');
 const bpm = document.getElementById('bpm');
+const warningArea = document.getElementById('warning-area');
 
 //PREVENT DRAG & DROP ON WINDOW
 window.addEventListener('dragover', e => {
@@ -127,7 +128,7 @@ class Track {
     this.dropZone = document.createElement('div');
     this.dropZone.className = 'drop-zone';
     this.trackContainer.appendChild(this.dropZone);
-    this.dropZone.innerHTML = '<p>Drop File</p>';
+    this.dropZone.innerHTML = '<p>Load File</p>';
 
     this.hiddenInput = document.createElement('input'); //Add a hidden file input in case the user clicks on dropZone
     this.hiddenInput.setAttribute('type', 'file');
@@ -150,19 +151,27 @@ class Track {
       let file = this.hiddenInput.files[0];
       let self = this;
 
+      reader.onloadstart = () => {
+        this.dropZone.innerHTML = '<p>Loading..</p>';
+      };
+
       reader.onload = () => {
         if (file.type === 'audio/wav' || file.type === 'audio/x-wav' || file.type === 'audio/mp3' ||file.type === 'audio/mpeg' ||  file.type === 'audio/ogg') { //Check if the loaded file is an audio file
           context.decodeAudioData(reader.result, decoded => {
-            if (decoded.duration < 2.0) { //Check to see if the file is under 2s long to prevent long samples
+            if (decoded.duration < 5.0) { //Check to see if the file is under 2s long to prevent long samples
               self.buffer = decoded;
+              this.dropZone.innerHTML = '<p>Sound Loaded</p>';
+              warningArea.innerHTML = '';
             }
             else { //Error if sound file is longer than 2s
-              console.log('Sound file needs to be under 2s long!');
+              this.dropZone.innerHTML = '<p>Load File</p>';
+              warningArea.innerHTML = 'Sound file needs to be under 5s long.';
             } 
           });
         }
         else { //Error if file type is not supported
-          console.log('We currently support wav, mp3 and ogg formats.');
+          this.dropZone.innerHTML = '<p>Load File</p>';
+          warningArea.innerHTML = 'We currently support wav, mp3 and ogg formats.';
         } 
       };
       reader.readAsArrayBuffer(file);
@@ -180,6 +189,7 @@ class Track {
 
       trackArray.splice(trackArray.indexOf(this), 1); //Remove the track from trackArray
       trackDiv.removeChild(this.trackContainer); //Remove DOM Elements
+      warningArea.innerHTML = '';
     });
   }
   play(time) { //PLAY SAMPLE
@@ -201,19 +211,27 @@ class Track {
     let self = this;
     const reader = new FileReader();
 
+    reader.onloadstart = () => {
+      this.dropZone.innerHTML = '<p>Loading..</p>';
+    };
+
     reader.onload = () => {
       if (file.type === 'audio/wav' || file.type === 'audio/x-wav' || file.type === 'audio/mp3' ||file.type === 'audio/mpeg' ||  file.type === 'audio/ogg') { //Check if the loaded file is an audio file
         context.decodeAudioData(reader.result, decoded => {
-          if (decoded.duration < 2.0) { //Check to see if the file is under 2s long to prevent long samples
+          if (decoded.duration < 5.0) { //Check to see if the file is under 2s long to prevent long samples
             self.buffer = decoded;
+            this.dropZone.innerHTML = '<p>Sound Loaded</p>';
+            warningArea.innerHTML = '';
           }
           else { //Error if sound file is longer than 2s
-            console.log('Sound file needs to be under 2s long!');
+            this.dropZone.innerHTML = '<p>Load File</p>';
+            warningArea.innerHTML = 'Sound file needs to be under 5s long.';
           } 
         });
       }
       else { //Error if file type is not supported
-        console.log('We currently support wav, mp3 and ogg formats.');
+        this.dropZone.innerHTML = '<p>Load File</p>';
+        warningArea.innerHTML = 'We currently support wav, mp3 and ogg formats.';
       } 
       };
     reader.readAsArrayBuffer(file);
