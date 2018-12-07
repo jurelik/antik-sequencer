@@ -49,6 +49,7 @@ class Track {
         this.toggle.state = true;
         this.toggle.htmlElement.className = 'toggle';
       }
+      this.toggle.htmlElement.blur();
     });
 
     //16 SEQUENCER BUTTONS
@@ -166,13 +167,15 @@ class Track {
             else { //Error if sound file is longer than 2s
               this.dropZone.innerHTML = '<p>Load File</p>';
               warningArea.innerHTML = 'Sound file needs to be under 5s long.';
+              this.warningAnimation();
             } 
           });
         }
         else { //Error if file type is not supported
           this.dropZone.innerHTML = '<p>Load File</p>';
           warningArea.innerHTML = 'We currently support wav, mp3 and ogg formats.';
-        } 
+          this.warningAnimation();
+        }
       };
       reader.readAsArrayBuffer(file);
     });
@@ -226,12 +229,14 @@ class Track {
           else { //Error if sound file is longer than 2s
             this.dropZone.innerHTML = '<p>Load File</p>';
             warningArea.innerHTML = 'Sound file needs to be under 5s long.';
+            this.warningAnimation();
           } 
         });
       }
       else { //Error if file type is not supported
         this.dropZone.innerHTML = '<p>Load File</p>';
         warningArea.innerHTML = 'We currently support wav, mp3 and ogg formats.';
+        this.warningAnimation();
       } 
       };
     reader.readAsArrayBuffer(file);
@@ -258,6 +263,14 @@ class Track {
     var scale = (maxv-minv) / (maxp-minp);
     var value = Math.exp(minv + scale*(position-minp));
     return value;
+  }
+  warningAnimation() { //Fade out animation
+    warningArea.classList.add('warning-area-animation');
+    this.hiddenInput.value = null; //!This removes the file from the memory
+    setTimeout(() => {
+      warningArea.innerHTML = '';
+      warningArea.classList.remove('warning-area-animation');
+    }, 5000);
   }
 }
 
