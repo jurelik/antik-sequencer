@@ -212,7 +212,9 @@ html, body {
 
 .warning-area-animation {
   animation-name: fade-out-warning;
-  animation-duration: 5s;
+  animation-duration: 3s;
+  animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+  animation-fill-mode: forwards;
 }
 
 /* ID DEFINITIONS */

@@ -270,7 +270,7 @@ class Track {
     setTimeout(() => {
       warningArea.innerHTML = '';
       warningArea.classList.remove('warning-area-animation');
-    }, 5000);
+    }, 3000);
   }
 }
 
