@@ -365,3 +365,13 @@ bpm.addEventListener('change', e => {
   console.log(bpm.value);
   bpm.blur();
 });
+
+window.addEventListener('keypress', e => {
+  if (e.key === ' ' && drumSequencer.playing === false) {
+    drumSequencer.playRhythm();
+  }
+  else if (e.key === ' ' && drumSequencer.playing === true) {
+    drumSequencer.stopRhythm();
+    drumSequencer.currNote = 0;
+  }
+});
