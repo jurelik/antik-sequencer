@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="style.min.css">
+  <script src="main.min.js" defer></script>
+  <title>antik-sequencer</title>
+</head>
+<body>
+  <main>
+    <div id="container">
+      <div id="global-controls">
+        <button id="play" class="play-inactive">▶</button>
+        <button id="stop" class="stop-inactive">■</button>
+        <button id="add-track">+</button>
+        <input type="number" id="bpm" min="50" max="200" value="120">
+      </div>
+      <p id="warning-area"></p>
+      <div id="track-div">
+      </div>
+    </div>
+  </main>
+</body>
+</html>
